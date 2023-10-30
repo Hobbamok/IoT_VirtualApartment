@@ -1,5 +1,6 @@
 import Configuration.ConfigManager;
 import Configuration.SensorConfig;
+import Connector.Connector;
 import Datasource.Datasource;
 
 import java.util.ArrayList;
@@ -8,11 +9,13 @@ import java.util.Date;
 public class Controller {
     private Datasource datasource;
     private ConfigManager configManager;
-    private ArrayList<SensorConfig> sensors;
+    private Connector connector;
+    private ArrayList<SensorConfig> sensors = new ArrayList<SensorConfig>();;
     public Controller (){
         //todo init the other stuff
         datasource = new Datasource();
         configManager = new ConfigManager();
+
     }
 
     /**
@@ -20,7 +23,17 @@ public class Controller {
      * @param scenarioName
      */
     public void setUpScenario(String scenarioName){
-        //todo
+        //todo move this to an actual config, read from scenario?
+        String mqttBrokerURL = "tcp://localhost:1883";//todo get this fromt he actual scenario file
+        Date begin = new Date(Long.MIN_VALUE);
+        Date end = new Date(Long.MAX_VALUE);
+        try{
+            connector = new Connector(mqttBrokerURL);
+        }catch(Exception e){
+            System.out.println("ERROR: Failed to create connector");
+            e.printStackTrace();
+            System.exit(5);//seriously, if we can't connect to the MQTT broker it's not worth continuing
+        }
     }
 
     /**
