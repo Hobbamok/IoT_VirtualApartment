@@ -15,7 +15,7 @@ public class Controller {
         //todo init the other stuff
         datasource = new Datasource();
         configManager = new ConfigManager();
-
+        //DONT configure the Connector here since that is established per scenario
     }
 
     /**
@@ -32,8 +32,10 @@ public class Controller {
         }catch(Exception e){
             System.out.println("ERROR: Failed to create connector");
             e.printStackTrace();
-            System.exit(5);//seriously, if we can't connect to the MQTT broker it's not worth continuing
+            System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
         }
+
+        //TODO find the CSV file, read it, set up the sensors
     }
 
     /**

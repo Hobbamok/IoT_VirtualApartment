@@ -2,7 +2,6 @@ package Connector;
 
 import Configuration.SensorConfig;
 import org.eclipse.paho.client.mqttv3.*;
-
 import java.util.UUID;
 
 public class Connector {
@@ -17,18 +16,29 @@ public class Connector {
         options.setConnectionTimeout(10);
         publisher.connect(options);
     }
+
+    /**
+     * Sends ALL messages for a given sensor
+     * @param sensor
+     * @return true if all sends were successfull, false if any errors occured
+     */
     public boolean sendPerSensor(SensorConfig sensor){
-        //todo connection to MQTT hub
-
-        //read sensor config to find topic
-
         //send the sensors "formattedDataEntries" to the topic, each entry separately
         boolean didAnythingFail = false;
-
-
+        for(byte[] msg : sensor.getFormattedData()){
+            if(!sendSingleMessage(sensor.getMqttTopic(),msg)){
+                didAnythingFail = true;
+            }
+        }
         return !didAnythingFail; //so true is returned if everything went well
     };
 
+    /**
+     * Sends a single message to the MQTT broker
+     * @param mqttTopic
+     * @param payload
+     * @return true if successful, false if not
+     */
     private boolean sendSingleMessage(String mqttTopic, byte[] payload){
         MqttMessage msg = new MqttMessage(payload);
         msg.setQos(2);// means "exactly once", maybe put 0 for at most once (fire&forget), or 1 at least once (if DT can handle duplicates)

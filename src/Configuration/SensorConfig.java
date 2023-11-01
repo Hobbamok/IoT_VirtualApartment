@@ -17,9 +17,9 @@ public class SensorConfig {
 
     String mqttTopic;
     //todo Marina: add data here
-    public ArrayList<String> getFormattedData() {
+    public ArrayList<byte[]> getFormattedData() {
         return formattedDataEntries;
     }
 
-    private ArrayList<String> formattedDataEntries;
+    private ArrayList<byte[]> formattedDataEntries;
 }
