@@ -2,9 +2,12 @@ import Configuration.ConfigManager;
 import Configuration.SensorConfig;
 import Connector.Connector;
 import Datasource.Datasource;
+import tech.tablesaw.api.Table;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Controller {
     private Datasource datasource;
@@ -36,6 +39,13 @@ public class Controller {
         }
 
         //TODO find the CSV file, read it, set up the sensors
+
+        // retrieve time series data for provided time slice
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+        String startAsString = df.format(begin);
+        String endAsString = df.format(end);
+        Map<String, Object> ts = datasource.retrieveTimeSeries("testData", startAsString, endAsString);
     }
 
     /**
