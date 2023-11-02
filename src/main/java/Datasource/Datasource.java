@@ -1,8 +1,10 @@
 package Datasource;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 
+import Configuration.SensorConfig;
 import tech.tablesaw.api.*;
 import tech.tablesaw.selection.Selection;
 
@@ -14,36 +16,31 @@ public class Datasource {
      * @param timeSeriesName name of the timeseries, usually sensorName or sensorName_scenarioB, should correspond to a csv file present
      * @param start of time series, inclusive
      * @param end of time series, inclusive
-     * @return
+     * @return list of updated sensorConfigs
      */
-    public Map<String, Object> retrieveTimeSeries(String timeSeriesName, String start, String end){
-        LocalDate startDate = LocalDate.parse(start);
-        LocalDate endDate = LocalDate.parse(end);
+    public ArrayList<SensorConfig> retrieveTimeSeries(String timeSeriesName, LocalDate start, LocalDate end, ArrayList<SensorConfig> scs){
         Selection dateSelection;
 
         Path currentPath = Paths.get(System.getProperty("user.dir"));
         Path filePath = Paths.get(currentPath.toString(), "data", timeSeriesName);
         Table table = Table.read().csv(filePath +".csv");
-        DateColumn dc = table.dateColumn("date");
-        dateSelection = dc.isOnOrBefore(startDate).and(dc.isOnOrAfter(endDate));
-        //Table timeSeries = table.where(dateSelection);
+        DateColumn dc = table.dateTimeColumn("date_time").date(); // assume that selections will not be time-based
+        dateSelection = dc.isOnOrBefore(end).and(dc.isOnOrAfter(start));
+        Table timeSeries = table.where(dateSelection); // selecting only relevant rows
 
-        Set sensors = table.stringColumn("sensor_name").asSet();
-        Iterator<String> sensorsIterator = sensors.iterator();
-        Map<String, Object> timeSeriesPerSensor = new HashMap<String, Object>();
+        for (SensorConfig sc : scs) {
+            HashMap<LocalDateTime, String> tm = new HashMap<>();
+            int sensorId = sc.getId();
+            Table sensorData = timeSeries.where(timeSeries.intColumn("sensor_id").isEqualTo(sensorId));
+            List<String> st = sensorData.column("msg").asStringColumn().asList();
+            List<LocalDateTime> dt = sensorData.dateTimeColumn("date_time").asList();
 
-        while(sensorsIterator.hasNext()) {
-            String sensor = sensorsIterator.next();
-            Table sensorNames = table.where(table.stringColumn("sensor_name").isEqualTo(sensor));
-
-            HashMap<List<LocalDate>, List<String>> tm = new HashMap<>();
-            StringColumn st = sensorNames.column("msg").asStringColumn();
-            DateColumn dt = sensorNames.dateColumn("date"); // TODO: combine date column with time column for datetime
-            tm.put(dt.asList(), st.asList()); // TODO: these should not be added as lists, but instead each date value unpacked and mapped to its corresponding sensor value
-                                                // then TreeMap can be used instead of HashMap (more efficient)
-            timeSeriesPerSensor.put(sensor, tm); // Add the time series data for the current sensor
+            for (int j = 0; j < dt.size(); j++) {
+                tm.put(dt.get(j), st.get(j));
+            }
+            sc.setData(tm);
+            System.out.println("added data to SensorConfig: " + sc);
         }
-        System.out.println(timeSeriesPerSensor);
-        return timeSeriesPerSensor;
+        return scs;
     }
 }

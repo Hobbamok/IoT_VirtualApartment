@@ -1,0 +1,7 @@
+date_time,sensor_type,sensor_id,msg
+2011-06-15 00:06:32,Motion,1,ON
+2011-06-17 00:06:33,Motion,1,OFF
+2011-06-15 00:15:01,Temperature,2,17
+2013-09-05 15:37:42,Light,3,2
+2013-10-17 15:37:44,Motion,1,OFF
+2013-12-31 15:37:44,Temperature,2,18
