@@ -27,6 +27,7 @@ public class SensorConfig {
 
     public void setData(LinkedHashMap<LocalDateTime, String> data) {
         this.data = data;
+        formattedDataEntries = formatter.formatData(data);
     }
 
     LinkedHashMap<LocalDateTime, String> data;

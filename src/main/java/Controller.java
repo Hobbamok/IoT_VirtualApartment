@@ -27,17 +27,17 @@ public class Controller {
      */
     public void setUpScenario(String scenarioName){
         //todo move this to an actual config, read from scenario?
-        String mqttBrokerURL = "tcp://localhost:1883";//todo get this fromt he actual scenario file
+        String mqttBrokerURL = "tcp://test.mosquitto.org:1883";//todo get this fromt he actual scenario file
         try{
             connector = new Connector(mqttBrokerURL);
         }catch(Exception e){
             System.out.println("ERROR: Failed to create connector");
             e.printStackTrace();
-           // System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
+           System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
         }
 
         // TODO: adapt this once method in ConfigManager is fleshed out fully
-        sensorConfigs.add(configManager.getSensorConfig("type", 0));
+        sensorConfigs.add(configManager.getSensorConfig("type", 2));
 
     }
 
@@ -50,6 +50,7 @@ public class Controller {
     public void sendTimeSeries(String timeSeriesName, LocalDate start, LocalDate end){
         sensorConfigs = datasource.retrieveTimeSeries(timeSeriesName, start, end, sensorConfigs);
         //todo REFORMAT HERE!
+
         connector.sendForSensors(sensorConfigs);
     }
 
