@@ -2,6 +2,8 @@ package Connector;
 
 import Configuration.SensorConfig;
 import org.eclipse.paho.client.mqttv3.*;
+
+import java.util.List;
 import java.util.UUID;
 
 public class Connector {
@@ -15,6 +17,16 @@ public class Connector {
         options.setCleanSession(true);
         options.setConnectionTimeout(10);
         publisher.connect(options);
+    }
+
+    public boolean sendForSensors(List<SensorConfig> sensors){
+        boolean didAnythingFail = false;
+        for(SensorConfig sensor : sensors){
+            if(!sendPerSensor(sensor)){
+                didAnythingFail = true;
+            }
+        }
+        return !didAnythingFail; //so true is returned if everything went well
     }
 
     /**

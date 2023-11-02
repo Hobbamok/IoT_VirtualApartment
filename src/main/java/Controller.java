@@ -38,14 +38,13 @@ public class Controller {
             System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
         }
 
-        //TODO find the CSV file, read it, set up the sensors
-
         // retrieve time series data for provided time slice
         String pattern = "yyyy-MM-dd HH:mm:ss";
         DateFormat df = new SimpleDateFormat(pattern);
         String startAsString = df.format(begin);
         String endAsString = df.format(end);
         Map<String, Object> ts = datasource.retrieveTimeSeries("testData", startAsString, endAsString);
+
     }
 
     /**
@@ -55,8 +54,11 @@ public class Controller {
      * @param end
      */
     public void sendTimeSeries(String timeSeriesName, Date start, Date end ){
+        //todo get the data from the datasource  or filter it for the start & end time
+        var timeseries = datasource.retrieveTimeSeries("testData", "2011-01-01", "2011-12-31");
+        //TODO HOW TO MAP THIS TO THE SENSORS!?
 
-        //send per sensor
+        connector.sendForSensors(sensors);
     }
 
     /**
