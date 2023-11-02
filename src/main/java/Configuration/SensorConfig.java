@@ -3,6 +3,7 @@ package Configuration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class SensorConfig {
     int id;
@@ -24,11 +25,11 @@ public class SensorConfig {
         return data;
     }
 
-    public void setData(HashMap<LocalDateTime, String> data) {
+    public void setData(LinkedHashMap<LocalDateTime, String> data) {
         this.data = data;
     }
 
-    HashMap<LocalDateTime, String> data;
+    LinkedHashMap<LocalDateTime, String> data;
     public ArrayList<byte[]> getFormattedData() {
         return formattedDataEntries;
     }
@@ -58,5 +59,9 @@ public class SensorConfig {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void formatData(){
+        formattedDataEntries = formatter.formatData(data);
     }
 }

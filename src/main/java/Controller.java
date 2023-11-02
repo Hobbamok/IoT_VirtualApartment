@@ -18,7 +18,7 @@ public class Controller {
         //todo init the other stuff
         datasource = new Datasource();
         configManager = new ConfigManager();
-        //DONT configure the Connector here since that is established per scenario
+        //DON'T configure the Connector here since that is established per scenario
     }
 
     /**
@@ -28,14 +28,12 @@ public class Controller {
     public void setUpScenario(String scenarioName){
         //todo move this to an actual config, read from scenario?
         String mqttBrokerURL = "tcp://localhost:1883";//todo get this fromt he actual scenario file
-        Date begin = new Date(Long.MIN_VALUE);
-        Date end = new Date(Long.MAX_VALUE);
         try{
             connector = new Connector(mqttBrokerURL);
         }catch(Exception e){
             System.out.println("ERROR: Failed to create connector");
             e.printStackTrace();
-            System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
+           // System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
         }
 
         // TODO: adapt this once method in ConfigManager is fleshed out fully
@@ -51,6 +49,7 @@ public class Controller {
      */
     public void sendTimeSeries(String timeSeriesName, LocalDate start, LocalDate end){
         sensorConfigs = datasource.retrieveTimeSeries(timeSeriesName, start, end, sensorConfigs);
+        //todo REFORMAT HERE!
         connector.sendForSensors(sensorConfigs);
     }
 

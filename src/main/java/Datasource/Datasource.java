@@ -29,7 +29,7 @@ public class Datasource {
         Table timeSeries = table.where(dateSelection); // selecting only relevant rows
 
         for (SensorConfig sc : scs) {
-            HashMap<LocalDateTime, String> tm = new HashMap<>();
+            LinkedHashMap<LocalDateTime, String> tm = new LinkedHashMap<>();
             int sensorId = sc.getId();
             Table sensorData = timeSeries.where(timeSeries.intColumn("sensor_id").isEqualTo(sensorId));
             List<String> st = sensorData.column("msg").asStringColumn().asList();

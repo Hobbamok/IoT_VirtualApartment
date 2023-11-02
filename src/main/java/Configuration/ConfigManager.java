@@ -14,4 +14,8 @@ public class ConfigManager {
         sensorConfig.type = type;
         return sensorConfig;
     }
+
+    private String readSensorConfigFile(String type){
+        return "";//TODO flesh out this method
+    }
 }
