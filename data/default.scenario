@@ -1,0 +1,10 @@
+mqttBrokerURL =  ws://broker.emqx.io:8083/mqtt
+#tcp://test.mosquitto.org:1883
+start_time = 2011-01-01
+end_time = 2013-12-31
+#several sensors can be added, separated by &, e.g. sensors = temperature&2&mqtttopic1;humidity&3&mqtttopichum. The mqtttopic is optional
+sensors = temperature&1&testing_virtual_apartment/temperature1;temperature&2&testing_virtual_apartment/temperature2;humidity&3&testing_virtual_apartment/humidity
+description = scenario description, this is the default scenario
+
+#https://stackoverflow.com/questions/9672327/parsing-string-as-properties
+#https://stackoverflow.com/questions/13441895/what-is-the-best-way-to-load-a-properties-file-on-java
