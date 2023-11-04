@@ -1,11 +1,11 @@
 import Configuration.ConfigManager;
+import Configuration.ScenarioConfig;
 import Configuration.SensorConfig;
 import Connector.Connector;
 import Datasource.Datasource;
-import tech.tablesaw.api.Table;
+import org.eclipse.paho.client.mqttv3.MqttException;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -26,19 +26,24 @@ public class Controller {
      * @param scenarioName
      */
     public void setUpScenario(String scenarioName){
-        //todo move this to an actual config, read from scenario?
-        String mqttBrokerURL = "tcp://test.mosquitto.org:1883";//todo get this fromt he actual scenario file
+        ScenarioConfig scenarioConfig;
         try{
-            connector = new Connector(mqttBrokerURL);
-        }catch(Exception e){
-            System.out.println("ERROR: Failed to create connector");
+            scenarioConfig = configManager.scenarioConfigFromFile(datasource.getDataDirectory(), scenarioName);
+            connector = new Connector(scenarioConfig.mqttBrokerURL);
+
+        }catch (IOException e){
+            System.out.println("ERROR: Failed to read scenario config file, no scenario has been set up.");
             e.printStackTrace();
-           System.exit(5);//if we can't connect to the MQTT broker it's not worth continuing
+            //TODO handle the failure to read the scenario config file
+            return;
+        } catch (MqttException e) {
+            System.out.println("ERROR: Failed to create connector for the scenario, no scenario has been set up.");
+            e.printStackTrace();
+            //TODO handle the failure to read the scenario config file
+            return;
         }
-
-        // TODO: adapt this once method in ConfigManager is fleshed out fully
-        sensorConfigs.add(configManager.getSensorConfig("type", 2));
-
+        sensorConfigs = scenarioConfig.sensorConfigs;
+        return;
     }
 
     /**
@@ -63,6 +68,13 @@ public class Controller {
         // I think it might be easier to pass date range as string and have the datasource parse that string internally
         LocalDate start = LocalDate.of(2011,1,1);
         LocalDate end = LocalDate.of(2013,12,31);
+        System.out.println(end.toString());
+        System.out.println(start.toString());
+
+        String erndStzring = end.toString();
+        var end2 = LocalDate.parse("2013-12-31");
         sendTimeSeries("default", start, end);//sends to Connector
     }
+
+
 }

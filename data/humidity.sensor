@@ -1,0 +1,5 @@
+#A config file for the humidity sensor
+formatting_regex = .*
+no_formatting = true
+formatting_charset = UTF-16
+default_mqtt_topic = humidity

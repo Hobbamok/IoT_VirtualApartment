@@ -1,11 +1,17 @@
 package Configuration;
 
 import java.lang.reflect.Array;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class Formatter {
+    /**
+     * formats ALL the data in the LinkedHashMap, aka all messages that a sensor has
+     * @param data LinkedHashMap of LocalDateTime and String, where the String is the message
+     * @return ArrayList of byte[] where each byte[] is a message reformatted
+     */
     public ArrayList<byte[]> formatData(LinkedHashMap<LocalDateTime, String> data){
         var list = new ArrayList<byte[]>();
         for (Object key : data.keySet()) {
@@ -15,9 +21,24 @@ public class Formatter {
         return list;
     }
 
+    String regex;
+    Charset charset;
+    public Formatter(String regex, String charset){
+        this.regex = regex;
+        this.charset = Charset.forName(charset);
+    }
+    public Formatter(String regex){
+        this.regex = regex;
+        this.charset = Charset.defaultCharset();
+    }
+    public Formatter(){
+        this.regex = ".*";
+        this.charset = Charset.defaultCharset();
+    }
+
     private byte[] formatDataEntry(Object key, String value){
         //todo actual reformatting
-        return  concatWithCopy2(key.toString().getBytes(),value.getBytes());//todo check if the toString delivers the right info
+        return  concatWithCopy2(key.toString().getBytes(charset),value.getBytes(charset));//todo check if the toString delivers the right info
     }
 
     static <T> T concatWithCopy2(T array1, T array2) {
