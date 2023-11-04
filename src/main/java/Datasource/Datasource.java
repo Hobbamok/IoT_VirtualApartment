@@ -12,18 +12,16 @@ import java.time.LocalDate;
 
 public class Datasource {
     /**
-     *
      * @param timeSeriesName name of the timeseries, usually sensorName or sensorName_scenarioB, should correspond to a csv file present
-     * @param start of time series, inclusive
-     * @param end of time series, inclusive
+     * @param start          of time series, inclusive
+     * @param end            of time series, inclusive
      * @return list of updated sensorConfigs
      */
-    public ArrayList<SensorConfig> retrieveTimeSeries(String timeSeriesName, LocalDate start, LocalDate end, ArrayList<SensorConfig> scs){
+    public ArrayList<SensorConfig> retrieveTimeSeries(String timeSeriesName, LocalDate start, LocalDate end, ArrayList<SensorConfig> scs) {
         Selection dateSelection;
 
-        Path currentPath = Paths.get(System.getProperty("user.dir"));
-        Path filePath = Paths.get(currentPath.toString(), "data", timeSeriesName);
-        Table table = Table.read().csv(filePath +".csv");
+
+        Table table = Table.read().csv(getDataDirectoryWithAddition(timeSeriesName + ".csv"));
         DateColumn dc = table.dateTimeColumn("date_time").date(); // assume that selections will not be time-based
         dateSelection = dc.isOnOrBefore(end).and(dc.isOnOrAfter(start));
         Table timeSeries = table.where(dateSelection); // selecting only relevant rows
@@ -42,5 +40,20 @@ public class Datasource {
             System.out.println("added data to SensorConfig: " + sc);
         }
         return scs;
+    }
+
+    //the setup below allows changing the data directory dynamically.
+    Path dataDirectory = Paths.get(System.getProperty("user.dir"), "data");
+
+    public void setDataDirectory(Path dataDirectory) {
+        this.dataDirectory = dataDirectory;
+    }
+
+    public String getDataDirectory() {
+        return dataDirectory.toString();
+    }
+
+    public String getDataDirectoryWithAddition(String addition) {
+        return getDataDirectory() +"/" + addition;
     }
 }
