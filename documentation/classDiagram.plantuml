@@ -3,6 +3,14 @@ class Datasource {
     -filePaths : String[]
     +getData(timestamp) : timeseriesData
 }
+
+class GUI {
+    -controller : Controller
+    +start() : void
+    +stop() : void
+    +update() : void
+    +getController() : Controller
+}
 class Controller {
     -activeSensors : SensorConfig[]
     -connector : Connector
@@ -23,26 +31,36 @@ class Formatter {
 abstract class SensorManager {
  +configureSensor() : SensorConfig
 }
-class SpecificSensorManager {
+class SensorManager {
  +configureSensor() : SensorConfig
 }
-abstract class SensorConfig {
+class SensorConfig {
     -id : int
     -type : String
     -channel : String
     +getSensorConfig() : SensorConfig
 }
-class SpecificSensorConfig {
+
+class ScenarioConfig {
+    -id : int
+    -type : String
+    -channel : String
+    +getSensorConfig() : SensorConfig
 }
 
-SpecificSensorConfig -u-|> SensorConfig
-SpecificSensorManager -u-|> SensorManager
-SpecificSensorManager "1" -l-> "*" SensorConfig : configures
+
+SensorManager "1" -l-> "*" SensorConfig : configures
+SensorManager "1" -l-> "1" ScenarioConfig : configures
+
+GUI "1" -d-> "*" Controller : inputs commands
+Controller "1" -d-> "*" GUI : status updates
+
+Controller "1" o-d- "1" ScenarioConfig : controls
 
 Controller "1" o-d- "*" SensorConfig : controls
 Controller "1" -d-> "*" SensorManager : requests-config
 Controller <.l. Datasource
-Controller "1 "*-- "1" Formatter
+SensorConfig "1 "*-- "1" Formatter : formats data
 Controller "1" *-r- "1" Connector
 
 @enduml

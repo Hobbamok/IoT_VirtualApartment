@@ -1,18 +1,21 @@
 @startuml
-User -> Controller: Test Scenario Request
+GUI -> Controller: Request Scenario
 
-Datasource <- Controller: Timeseries Request
-Datasource --> Controller: Timeseries Generation/Retrieval
+SensorConfig <- Controller: Request Scenario Config
+SensorConfig --> Controller: Scenario & Sensor Configuration
 
-SensorConfig <- Controller: Configuration Request
-SensorConfig --> Controller: Configuration Response
+Datasource <- Controller: "Fill" sensors with data
+Datasource --> Controller: Sensors with data
 
-Controller -> Reformatter: Formatting Request
-Controller <-- Reformatter: Reformatted Timeseries
 
-Controller -> Connector: Publish Request
+
+SensorConfig -> Reformatter: Formatting Request
+SensorConfig <-- Reformatter: Reformatted Messages
+GUI <-- Controller: Ready to publish
+GUI -> Controller: Publish
+
+Controller -> Connector: Publish (SensorConfigs)
 Connector -> SensorBoard: Send Messages Request
-Connector <-- SensorBoard: Send Messages ok
-Controller <-- Connector: Publish ok
-User <-- Controller: Test Scenario ok
+Controller <-- Connector: Publish complete
+GUI <-- Controller: Publish complete
 @enduml

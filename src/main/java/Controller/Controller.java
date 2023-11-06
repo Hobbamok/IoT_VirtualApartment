@@ -1,21 +1,25 @@
+package Controller;
+
 import Configuration.ConfigManager;
 import Configuration.ScenarioConfig;
 import Configuration.SensorConfig;
 import Connector.Connector;
 import Datasource.Datasource;
+import Interface.UserInterface;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
-
 public class Controller {
     private Datasource datasource;
     private ConfigManager configManager;
     private Connector connector;
+    private UserInterface userInterface;
     private ArrayList<SensorConfig> sensorConfigs = new ArrayList<>();
-    public Controller (){
+    public Controller (UserInterface userInterface){
         //todo init the other stuff
+        this.userInterface = userInterface;
         datasource = new Datasource();
         configManager = new ConfigManager();
         //DON'T configure the Connector here since that is established per scenario

@@ -1,10 +1,14 @@
-
+import Controller.Controller;
+import Interface.CommandLineInterface;
+import Interface.UserInterface;
 
 public class Main {
     public static void main(String[] args) {
-        Controller controller = new Controller();
+        UserInterface userInterface = new CommandLineInterface();
+        Controller controller = new Controller(userInterface);
+        userInterface.init(controller);
 
-        //controller.init();
+        //this starts a scripted default scenario run
         controller.setupAndSendTimeSeries();
 
     }
