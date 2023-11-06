@@ -1,0 +1,23 @@
+@startuml
+object "datasource:Datasource" as ds {
+    filePaths = ["path/to/single/sensor/config.csv"]
+}
+
+object "controller:Controller" as ctrl
+object "connector:Connector" as con
+object "formatter:Formatter" as for
+object "tempManager:SpecificSensorManager" as tsm
+object "tempConfig:SpecificSensorConfig" as tsc {
+    id = 0
+    type = "temp"
+    topic = "sensors/temperature"
+}
+
+for -- ctrl
+con -- ctrl
+ds -- ctrl
+tsc -- ctrl
+tsm -- ctrl
+tsc -- tsm
+
+@enduml

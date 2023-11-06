@@ -1,0 +1,48 @@
+@startuml classDiagram
+class Datasource {
+    -filePaths : String[]
+    +getData(timestamp) : timeseriesData
+}
+class Controller {
+    -activeSensors : SensorConfig[]
+    -connector : Connector
+    -formatter : Formatter
+    +requestData(Datasource,timestamp) : timeseriesData
+    +requestConfig(SensorManager) : SensorConfig
+    +requestFormat(Formatter,SensorConfig,timeseriesData) : formattedData
+    +requestConnection(Connector) : boolean
+    +requestPublish(Connector,formattedData) : boolean
+}
+class Connector {
+    +connectTo(SensorConfig) : boolean
+    +publishTo(SensorConfig,formattedData) : boolean
+}
+class Formatter {
+ +format(timeseriesData) : formattedData
+}
+abstract class SensorManager {
+ +configureSensor() : SensorConfig
+}
+class SpecificSensorManager {
+ +configureSensor() : SensorConfig
+}
+abstract class SensorConfig {
+    -id : int
+    -type : String
+    -channel : String
+    +getSensorConfig() : SensorConfig
+}
+class SpecificSensorConfig {
+}
+
+SpecificSensorConfig -u-|> SensorConfig
+SpecificSensorManager -u-|> SensorManager
+SpecificSensorManager "1" -l-> "*" SensorConfig : configures
+
+Controller "1" o-d- "*" SensorConfig : controls
+Controller "1" -d-> "*" SensorManager : requests-config
+Controller <.l. Datasource
+Controller "1 "*-- "1" Formatter
+Controller "1" *-r- "1" Connector
+
+@enduml

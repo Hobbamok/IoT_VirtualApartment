@@ -1,0 +1,35 @@
+@startuml
+class Datasource {
+    Provides time series 
+    data upon request
+}
+class Controller {
+    Manages intialisation 
+    and user interaction
+}
+class Connector {
+    Manages transmission 
+    and connection to 
+    individual sensor boards
+}
+class Reformatter {
+    Formats given time 
+    series data into 
+    specified format
+}
+class SensorConfig {
+    Manages and provides 
+    the different sensor 
+    profiles
+}
+
+Controller <--> "1" SensorConfig
+Controller -l-> "2" Datasource
+Controller <-r- "3" Datasource
+Controller --> "4" Reformatter
+Controller <-- "5" Reformatter
+Controller -r-> "6" Connector
+Connector -r-> "7" SensorBoard
+SensorConfig -[hidden]> Reformatter
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+User -> Controller: Test Scenario Request
+
+Datasource <- Controller: Timeseries Request
+Datasource --> Controller: Timeseries Generation/Retrieval
+
+SensorConfig <- Controller: Configuration Request
+SensorConfig --> Controller: Configuration Response
+
+Controller -> Reformatter: Formatting Request
+Controller <-- Reformatter: Reformatted Timeseries
+
+Controller -> Connector: Publish Request
+Connector -> SensorBoard: Send Messages Request
+Connector <-- SensorBoard: Send Messages ok
+Controller <-- Connector: Publish ok
+User <-- Controller: Test Scenario ok
+@enduml
