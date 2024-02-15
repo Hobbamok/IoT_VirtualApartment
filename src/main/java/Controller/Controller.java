@@ -4,7 +4,7 @@ import Configuration.ConfigManager;
 import Configuration.ScenarioConfig;
 import Configuration.SensorConfig;
 import Connector.Connector;
-import Datasource.Datasource;
+import Datasource.*;
 import Interface.UserInterface;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -32,7 +32,7 @@ public class Controller {
     public void setUpScenario(String scenarioName){
         ScenarioConfig scenarioConfig;
         try{
-            scenarioConfig = configManager.scenarioConfigFromFile(datasource.getDataDirectory(), scenarioName);
+            scenarioConfig = configManager.scenarioConfigFromFile(FilesManager.getDataDirectory(), scenarioName);
             connector = new Connector(scenarioConfig.mqttBrokerURL);
 
         }catch (IOException e){

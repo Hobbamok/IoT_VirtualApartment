@@ -1,10 +1,13 @@
 mqttBrokerURL =  ws://broker.emqx.io:8083/mqtt
-#tcp://test.mosquitto.org:1883
-start_time = 2011-01-01
-end_time = 2013-12-31
-#several sensors can be added, separated by &, e.g. sensors = temperature&2&mqtttopic1;humidity&3&mqtttopichum. The mqtttopic is optional
-sensors = temperature&1&testing_virtual_apartment/temperature1;temperature&2&testing_virtual_apartment/temperature2;humidity&3&testing_virtual_apartment/humidity
-description = scenario description, this is the default scenario
+#Only 5 protocol supported: tcp/ssl/local/ws/wss
+start_time = 1308089192000
+ #in milliseconds in epoch (so from 1970)
+duration = 0
+#in milliseconds, 0 means infinite
+#several sensors can be added, separated by &, e.g. sensors = temperature&2&1000&mqtttopic1;humidity&3&mqtttopichum. The delay, mqtttopic & password are optional but no pw without topic
+#one sensor example broken down: sensorType&sensorID&delay&mqtttopic&password
+sensors = Temperature&B_DHT&2000&relay/bedroom;Temperature&LR_DHT&1000&relay/living;Temperature&BATH_DHT&relay/bath;FSR&FSR&relay/living;PIR&B_PIR&relay/bath;HR&HR&relay/hr
 
-#https://stackoverflow.com/questions/9672327/parsing-string-as-properties
-#https://stackoverflow.com/questions/13441895/what-is-the-best-way-to-load-a-properties-file-on-java
+description = scenario description, this is the default scenario using a shortened version of the data provided by Isaac's script
+
+timeSeriesName = default_using_isaac_data

@@ -1,5 +1,7 @@
 #A config file for the humidity sensor
-formatting_regex = .*
-no_formatting = true
+
 formatting_charset = UTF-16
 default_mqtt_topic = humidity
+default_delay = 100
+template_string = {"sensors":[{"name":"humidity","values":[{"timestamp":$timestamp$,"presence":$msg$}]}]}
+#utilize $msg$ for the message and $timestamp$ for the timestamp and if required $third$ for a third field

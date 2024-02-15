@@ -21,7 +21,7 @@ public class Datasource {
         Selection dateSelection;
 
 
-        Table table = Table.read().csv(getDataDirectoryWithAddition(timeSeriesName + ".csv"));
+        Table table = Table.read().csv(FilesManager.getDataDirectoryWithAddition(timeSeriesName + ".csv"));
         DateColumn dc = table.dateTimeColumn("date_time").date(); // assume that selections will not be time-based
         dateSelection = dc.isOnOrBefore(end).and(dc.isOnOrAfter(start));
         Table timeSeries = table.where(dateSelection); // selecting only relevant rows
@@ -40,20 +40,5 @@ public class Datasource {
             System.out.println("added data to SensorConfig: " + sc);
         }
         return scs;
-    }
-
-    //the setup below allows changing the data directory dynamically.
-    Path dataDirectory = Paths.get(System.getProperty("user.dir"), "data");
-
-    public void setDataDirectory(Path dataDirectory) {
-        this.dataDirectory = dataDirectory;
-    }
-
-    public String getDataDirectory() {
-        return dataDirectory.toString();
-    }
-
-    public String getDataDirectoryWithAddition(String addition) {
-        return getDataDirectory() +"/" + addition;
     }
 }

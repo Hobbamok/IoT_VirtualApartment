@@ -1,0 +1,13 @@
+mqttBrokerURL=ws://broker.emqx.io:8083/mqtt
+#unused: tcp://test.mosquitto.org:1883
+start_time=1701375610
+duration=0
+#several sensors can be added, separated by &, e.g. sensors = temperature&2&mqtttopic1;humidity&3&mqtttopichum. The mqtttopic is optional
+sensors=temperature&1&testing_virtual_apartment2/temperature1;temperature&2&testing_virtual_apartment2/temperature2;humidity&3&testing_virtual_apartment/humidity
+description=Second scenario description
+timeSeriesName=default
+#Whether the data should be reformatted:  NEVER,DEPENDS, YES. Depends is the default, which means that the data is reformatted unless { is found in the value (implying it's a finished JSON object). This overrides the sensors default.
+reformatData=NEVER
+
+#https://stackoverflow.com/questions/9672327/parsing-string-as-properties
+#https://stackoverflow.com/questions/13441895/what-is-the-best-way-to-load-a-properties-file-on-java

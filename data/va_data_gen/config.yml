@@ -1,0 +1,91 @@
+start_date: 2024-01-01T00:00:00Z
+repeat: 30d
+mode: normal
+refresh_rate: 30s
+house:
+  rooms:
+    - name: Bedroom
+      type: BEDROOM
+      sensors:
+        - name: Temperature
+          type: B_DHT
+          trigger:
+            every: 20m
+            range:
+              - start: 20:00:00
+                end: 7:59:59Z
+                min: 20
+                max: 20
+              - start: 8:00:00
+                end: 19:59:59
+                min: 20
+                max: 24
+        - name: Presence
+          type: B_PIR
+          trigger:
+            file:
+              normal: "normal_movement.csv"
+              anomaly: "anomaly_movement.csv"
+            repeat: daily
+    - name: Bathroom
+      type: BATHROOM
+      sensors:
+        - name: Temperature
+          type: BATH_DHT
+          trigger:
+            every: 5m
+        - name: Presence
+          type: BATH_PIR
+          trigger:
+            file:
+              normal: "normal_movement.csv"
+              anomaly: "anomaly_movement.csv"
+            repeat: daily
+        - name: Heart rate
+          type: BATH_HR
+          trigger:
+            on:
+              sensor: BATH_PIR
+              value: 1
+              delay: 1m
+    - name: Kitchen
+      type: KITCHEN
+      sensors:
+        - name: Temperature
+          type: K_DHT
+          trigger:
+            every: 1m
+        - name: Presence
+          type: K_PIR
+          trigger:
+            file:
+              normal: "normal_movement.csv"
+              anomaly: "anomaly_movement.csv"
+        - name: Camera
+          type: K_CAMERA
+          trigger:
+            every: 1m
+    - name: Living Room
+      type: LIVING_ROOM
+      sensors:
+        - name: Temperature
+          type: LR_DHT
+          trigger:
+            every: 5m
+        - name: Presence
+          type: LR_PIR
+          trigger:
+            file:
+              normal: "normal_movement.csv"
+              anomaly: "anomaly_movement.csv"
+        - name: Camera
+          type: LR_CAMERA
+          trigger:
+            every: 5m
+        - name: Bottle Sensors
+          type: LR_FSR
+          trigger:
+            on:
+              sensor: LR_PIR
+              value: 1
+              delay: 1m

@@ -1,0 +1,14 @@
+#A config file for the Camera sensor
+# this is a bit unusual because, well, the camera is special
+
+formatting_charset = UTF-16
+# The default MQTT topic to publish to, is used if the scenario does not provide one or says "default", the sensor ID is appendes with a slash
+default_mqtt_topic =
+default_delay = 1000
+template_string = {"sensors":[{"name":"fsr","values":[{"timestamp":$timestamp$,"weight":$msg$}]}]}
+mqttSuffixAnnouncement = data
+mqttSuffixBlob = images
+#/$fileId$ is appended to the Blob-suffix
+#Some Stuff is hardcoded
+fileName = photo
+# the number of the photo will be appended

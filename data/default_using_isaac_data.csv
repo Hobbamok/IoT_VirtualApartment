@@ -1,0 +1,12 @@
+timestamp;sensor_name;sensor_type;msg
+1704063600000;K_CAMERA;Camera;{'timestamp': 1704063600000, 'file': '/Users/isaacnez/Downloads/train/split1/split1_365.png'}
+1704063600000;K_DHT;Temperature;{'timestamp': 1704063600000, 'temperature': 20.0, 'humidity': 32.696583950279106}
+1704063600000;LR_CAMERA;Camera;{'timestamp': 1704063600000, 'file': '/Users/isaacnez/Downloads/train/split10/split10_320.png'}
+1704063600000;LR_DHT;Temperature;{'timestamp': 1704063600000, 'temperature': 20.74699841868747, 'humidity': 45.39523119705036}
+1704063600000;BATH_DHT;Temperature;{'timestamp': 1704063600000, 'temperature': 20.0, 'humidity': 40.37431614272325}
+1704063600000;B_DHT;Temperature;{'timestamp': 1704063600000, 'temperature': 22.0, 'humidity': 40.2924099960549}
+1704092400000;B_PIR;PIR;{'timestamp': 1704092400000, 'presence': 0}
+1704092400000;FSR;FSR;{'timestamp': 1704092400000, 'weight': 1000}
+1704092460000;BATH_PIR;PIR;{'timestamp': 1704092460000, 'presence': 1}
+1704092460000;HR;HR;{'timestamp': 1704092460000, 'hr': 77}
+

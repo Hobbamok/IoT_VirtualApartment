@@ -1,0 +1,23 @@
+mqttBrokerURL: ws://broker.emqx.io:8083/mqtt
+start_time: 1308089192000
+duration: 0  # in milliseconds, 0 means infinite
+
+# Several sensors can be added, separated by '&'
+# Format: sensorType&sensorID&mqtttopic&password
+sensors:
+  - type: temperature
+    id: 3
+    mqtt_topic: testing_virtual_apartment/temperature1
+    password: testpassword
+  - type: temperature
+    id: 2
+    mqtt_topic: testing_virtual_apartment/temperature2
+  - type: humidity
+    id: 3
+    mqtt_topic: testing_virtual_apartment/humidity
+    password: testpassword2
+
+mqtt_topic: testing_virtual_apartment/humidity
+password: testpassword2
+description: "scenario description, this is the default scenario"
+timeSeriesName: "default"

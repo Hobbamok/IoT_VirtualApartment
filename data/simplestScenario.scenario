@@ -1,0 +1,13 @@
+mqttBrokerURL =  ws://broker.emqx.io:8083/mqtt
+start_time = 1308089192000
+ #in milliseconds in epoch (so from 1970)
+duration = 0
+#in milliseconds, 0 means infinite
+#several sensors can be added, separated by &, e.g. sensors = temperature&2&mqtttopic1;humidity&3&mqtttopichum. The mqtttopic & password are optional but no pw without topic
+#one sensor example broken down: sensorType&sensorID&mqtttopic&password
+sensors = temperature&3&testing_virtual_apartment/temperature1&testpassword;
+
+description = scenario description, this is the default scenario
+
+timeSeriesName = default
+# this name equates to the name of the file that will be created, .csv will be appended, so this points to default.csv

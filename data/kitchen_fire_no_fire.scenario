@@ -1,0 +1,13 @@
+mqttBrokerURL=ws://127.0.0.1:8080
+#Only 5 protocol supported: tcp/ssl/local/ws/wss
+start_time=1704063600000
+#in milliseconds in epoch (so from 1970)
+duration=0
+#in milliseconds, 0 means infinite
+#several sensors can be added, separated by &, e.g. sensors = temperature&2&mqtttopic1;humidity&3&mqtttopichum. The mqtttopic & password are optional but no pw without topic
+#one sensor example broken down: sensorType&sensorID&delay&mqtttopic&password
+sensors=Temperature&B_DHT&2000&relay/bedroom
+delay=2000
+description=scenario description, this is the default scenario
+timeSeriesName=full_data
+
